@@ -44,9 +44,12 @@ if __name__ == '__main__':
     parser.add_argument("--short_comment", type=str, default="", help="Motec log metadata field")
     args = parser.parse_args()
 
-    args.log = os.path.expanduser(args.log)
-    args.dbc = os.path.expanduser(args.dbc)
-    args.output = os.path.expanduser(args.output)
+    if args.log:
+        args.log = os.path.expanduser(args.log)
+    if args.dbc:
+        args.dbc = os.path.expanduser(args.dbc)
+    if args.output:
+        args.output = os.path.expanduser(args.output)
 
     # Make sure our input files are valid
     if not os.path.isfile(args.log):
@@ -119,7 +122,7 @@ if __name__ == '__main__':
         ld_filename = os.path.join(candump_dir, candump_filename + ".ld")
 
     output_dir = os.path.dirname(ld_filename)
-    if not os.path.isdir(output_dir):
+    if output_dir and not os.path.isdir(output_dir):
         print("Directory '%s' does not exist, will create it" % output_dir)
         os.makedirs(output_dir)
 
