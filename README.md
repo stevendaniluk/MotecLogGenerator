@@ -110,6 +110,12 @@ It will generate a log file formatted like below:
 ...
 ```
 
+## CAN Utilities
+Under the `can_utils` directory there are some tools for:
+* Inspecting the CAN Id's contained in a log file
+* Inspecting the messages from a particular Id in a CAN log
+* Generating a DBC file with signals for individual bytes from every Id present
+
 ## Dependencies
 * Python 3
 * [cantools](https://cantools.readthedocs.io)
