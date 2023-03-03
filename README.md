@@ -17,6 +17,7 @@ git clone --recursive git@github.com:stevendaniluk/MotecLogGenerator.git
 ```
 
 ## Usage
+Check out the examples directory for some sample log files to test the tool with.
 
 ### CAN Bus Logs
 ```bash

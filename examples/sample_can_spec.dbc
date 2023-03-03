@@ -1,0 +1,71 @@
+VERSION "Sample"
+
+NS_ :
+    BA_
+    BA_DEF_
+    BA_DEF_DEF_
+    BA_DEF_DEF_REL_
+    BA_DEF_REL_
+    BA_DEF_SGTYPE_
+    BA_REL_
+    BA_SGTYPE_
+    BO_TX_BU_
+    BU_BO_REL_
+    BU_EV_REL_
+    BU_SG_REL_
+    CAT_
+    CAT_DEF_
+    CM_
+    ENVVAR_DATA_
+    EV_DATA_
+    FILTER
+    NS_DESC_
+    SGTYPE_
+    SGTYPE_VAL_
+    SG_MUL_VAL_
+    SIGTYPE_VALTYPE_
+    SIG_GROUP_
+    SIG_TYPE_REF_
+    SIG_VALTYPE_
+    VAL_
+    VAL_TABLE_
+
+BS_:
+
+BU_: Vector__XXX
+
+BO_ 208 ID_D0: 8 Vector__XXX
+    SG_ STEER_ANGLE : 0|16@1- (0.1, 0) [-450|450] "deg" Vector__XXX
+    SG_ GYRO_YAW: 16|9@1- (0.005, 0) [-1.2775|1.2775] "rad/s" Vector__XXX
+    SG_ ACCEL_LAT: 48|8@1- (0.2, 0) [-25.4|25.4] "m/s/s" Vector__XXX
+    SG_ ACCEL_LONG: 56|8@1- (0.15, 0) [-19.05|19.05] "m/s/s" Vector__XXX
+
+BO_ 209 ID_D1: 4 Vector__XXX
+    SG_ SPEED : 0|16@1+ (0.0155168902, 0) [0|300] "m/s" Vector__XXX
+    SG_ BRAKE : 16|8@1+ (1.0, 0) [0|100] "%" Vector__XXX
+
+BO_ 212 ID_D4: 8 Vector__XXX
+    SG_ WS_FL : 0|16@1+ (0.0155168902, 0) [0|300] "m/s" Vector__XXX
+    SG_ WS_FR : 16|16@1+ (0.0155168902, 0) [0|300] "m/s" Vector__XXX
+    SG_ WS_RL : 32|16@1+ (0.0155168902, 0) [0|300] "m/s" Vector__XXX
+    SG_ WS_RR : 48|16@1+ (0.0155168902, 0) [0|300] "m/s" Vector__XXX
+
+BO_ 320 ID_140: 8 Vector__XXX
+    SG_ THROTTLE : 0|8@1+ (0.39215686274509803, 0) [0|100] "%" Vector__XXX
+    SG_ CLUTCH : 15|1@1+ (100.0, 0) [0|100] "%" Vector__XXX
+    SG_ RPM : 16|14@1+ (1.0, 0) [0|10000] "rpm" Vector__XXX
+
+BO_ 321 ID_141: 8 Vector__XXX
+    SG_ GEAR : 48|4@1+ (1, 0) [0|6] "" Vector__XXX
+
+BO_ 340 ID_154: 7 Vector__XXX
+    SG_ REVERSE : 49|1@1+ (1, 0) [0|255] "" Vector__XXX
+    SG_ EBRAKE : 51|1@1+ (1, 0) [0|255] "" Vector__XXX
+
+BO_ 342 ID_156: 8 Vector__XXX
+    SG_ FUEL : 56|8@1+ (2.155, 6.315) [0|61] "litre" Vector__XXX
+
+BO_ 864 ID_360: 8 Vector__XXX
+    SG_ COOLANT_TEMP: 24|8@1+ (1, -40) [-40|215] "C" Vector__XXX
+    SG_ BOOST: 32|8@1+ (1.9885, -98.85) [-99|507] "kPa" Vector__XXX
+    SG_ SI_MODE : 40|3@1+ (0.5, -1) [0|2] "" Vector__XXX

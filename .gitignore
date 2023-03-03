@@ -1,2 +1,6 @@
 *.pyc
 __pycache__
+
+# MoTeC logs
+*.ld
+*.ldx
