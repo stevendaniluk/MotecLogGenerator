@@ -81,12 +81,12 @@ class DataLog(object):
                 else:
                     self.add_channel(name, signal.unit, float, Message(stamp, value))
 
-    def from_accessport_log(self, log_lines):
-        """ Creates channels populated with messages from a COBB Accessport CSV log file.
+    def from_csv_log(self, log_lines):
+        """ Creates channels populated with messages from a CSV log file.
 
-        This will create a channel for each column in the CSV file, with the name and units of that
-        channel taken from the CSV header. Any non numeric data will be ignored, and that channel
-        will be removed.
+        This will create a channel for each column in the CSV file, with the name of that channel
+        taken from the CSV header. All channels will be created without any units. Any non numeric data
+        will be ignored, and that channel will be removed. The first column of data must be time
 
         log_lines: List, containing CSV log lines
         """
@@ -95,19 +95,15 @@ class DataLog(object):
         if not log_lines:
             return
 
-        # Header has the format: "Channel 1 (Units 1),Channel 2 (Units 2),...,AP Info:..."
-        # So we'll want to ignore the first column (Time) and last column (vehicle info)
+        # Get the channel names, ignore the first column as it is assumed to be time
         header = log_lines[0]
-        header_elements = header.split(",")[1:-1]
+        channel_names = header.split(",")[1:]
 
         # We'll keep a map of names and column numbers for easy channel lookups when parsing rows
         i = 0
         channel_dict = {}
-        for element in header_elements:
-            # Channels have the format "Name (Units)"
-            name, units = element.split(" (")
-            units = units[:-1]
-            self.add_channel(name, units, float)
+        for name in channel_names:
+            self.add_channel(name, "", float)
 
             channel_dict[name] = i
             i += 1
@@ -138,6 +134,34 @@ class DataLog(object):
             for name in invalid_channels:
                 del channel_dict[name]
                 del self.channels[name]
+
+    def from_accessport_log(self, log_lines):
+        """ Creates channels populated with messages from a COBB Accessport CSV log file.
+
+        This will create a channel for each column in the CSV file, with the name and units of that
+        channel taken from the CSV header. Any non numeric data will be ignored, and that channel
+        will be removed.
+
+        log_lines: List, containing CSV log lines
+        """
+
+        self.from_csv_log(log_lines)
+
+        # Accessport logs have a column for AP info which is not of any value so we'll delete it
+        for key in self.channels.keys():
+            if "AP Info" in key:
+                del self.channels[key]
+                break
+
+        # Update all the channel names and units
+        for channel_name, channel in self.channels.items():
+            # Channels have the format "Name (Units)"
+            print(channel_name)
+            name, units = channel_name.split(" (")
+            units = units[:-1]
+
+            channel.name = name
+            channel.units = units
 
     @staticmethod
     def __parse_can_log_line(line):
