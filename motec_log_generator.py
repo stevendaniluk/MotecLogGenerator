@@ -30,7 +30,7 @@ if __name__ == '__main__':
         choices=["CAN", "CSV", "ACCESSPORT"])
 
     parser.add_argument("--output", type=str, \
-        help="Name of output file, defaults to same as 'candump'")
+        help="Name of output file, defaults to the same filename as 'log'")
     parser.add_argument("--frequency", type=float, default=20.0, \
         help="Fixed frequency to resample all channels at")
     parser.add_argument("--dbc", type=str, help="Path to DBC file, required if log type CAN")
