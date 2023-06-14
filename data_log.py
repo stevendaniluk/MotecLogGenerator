@@ -10,9 +10,9 @@ class DataLog(object):
     def clear(self):
         self.channels = {}
 
-    def add_channel(self, name, units, data_type, initial_message=None):
+    def add_channel(self, name, units, data_type, decimals, initial_message=None):
         msg = [] if not initial_message else [initial_message]
-        self.channels[name] = Channel(name, units, data_type, msg)
+        self.channels[name] = Channel(name, units, data_type, decimals, msg)
 
     def start(self):
         """ Returns the earliest timestamp from all existing channels [s]. """
@@ -79,7 +79,7 @@ class DataLog(object):
                 if name in self.channels:
                     self.channels[name].messages.append(Message(stamp, value))
                 else:
-                    self.add_channel(name, signal.unit, float, Message(stamp, value))
+                    self.add_channel(name, signal.unit, float, 3, Message(stamp, value))
 
     def from_csv_log(self, log_lines):
         """ Creates channels populated with messages from a CSV log file.
@@ -103,7 +103,7 @@ class DataLog(object):
         i = 0
         channel_dict = {}
         for name in channel_names:
-            self.add_channel(name, "", float)
+            self.add_channel(name, "", float, 0)
 
             channel_dict[name] = i
             i += 1
@@ -126,6 +126,10 @@ class DataLog(object):
                     val = float(values[i + 1])
                     message = Message(t, val)
                     self.channels[name].messages.append(message)
+
+                    val_text_split = values[i + 1].split(".")
+                    decimals_present = 0 if len(val_text_split) == 1 else len(val_text_split[1])
+                    self.channels[name].decimals = max(decimals_present, self.channels[name].decimals)
                 except ValueError:
                     print("WARNING: Found non numeric values for channel %s, removing channel" % \
                         name)
@@ -184,10 +188,11 @@ class DataLog(object):
 
 class Channel(object):
     """ Represents a singe channel of data containing a time series of values."""
-    def __init__(self, name, units, data_type, messages=None):
+    def __init__(self, name, units, data_type, decimals, messages=None):
         self.name = str(name)
         self.units = str(units)
         self.data_type = data_type
+        self.decimals = decimals
         if messages:
             self.messages = messages
         else:
@@ -256,8 +261,8 @@ class Channel(object):
         self.messages = new_msgs
 
     def __str__(self):
-        return "Channel: %s, Units: %s, Messages: %d, Frequency: %.2f Hz" % \
-        (self.name, self.units, len(self.messages), self.avg_frequency())
+        return "Channel: %s, Units: %s, Decimals: %d, Messages: %d, Frequency: %.2f Hz" % \
+        (self.name, self.units, self.decimals, len(self.messages), self.avg_frequency())
 
 class Message(object):
     """ A single message in a time series of data. """

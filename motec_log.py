@@ -85,6 +85,10 @@ class MotecLog(object):
         shift = 0
         multiplier = 1
         scale = 1
+
+        # Decimal places must be hard coded to zero, the ldparser library doesn't properly
+        # handle non zero values, consequently all channels will have zero decimal places
+        # decimals = log_channel.decimals
         decimals = 0
 
         ld_channel = ldChan(None, meta_ptr, prev_meta_ptr, next_meta_ptr, data_ptr, data_len, \
