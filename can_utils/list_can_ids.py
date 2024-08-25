@@ -21,9 +21,9 @@ if __name__ == '__main__':
     with open(args.log, "r") as file:
         lines = file.readlines()
 
-    known_ids = can_utils.can_ids_from_lines(lines)
+    id_stats = can_utils.get_id_stats_from_lines(lines)
 
-    print("ID   | Msg Count")
-    print("----------------")
-    for id, info in sorted(known_ids.items()):
-        print("%s  |  %d" % (id, info["msgs"]))
+    print("    ID     | Msg Count | Avg. Frequency")
+    print("---------------------------------------")
+    for id, stats in sorted(id_stats.items()):
+        print(stats)
